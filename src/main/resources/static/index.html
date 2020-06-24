@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Dodawanie użytkownika</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+</head>
+<body>
+<div class="col px-md-3" style="width: 30%;">
+    <form method="post" action="/add-with-post">
+        <div class="form-group">
+            <label for="firstName">Imię:</label>
+            <input id="firstName" class="form-control" type="text" required="required" minlength="2"
+                   placeholder="Wpisz imię">
+        </div>
+        <div class="form-group">
+            <label for="lastName">Nazwisko:</label>
+            <input id="lastName" class="form-control" type="text" required="required" minlength="2"
+                   placeholder="Wpisz nazwisko">
+        </div>
+        <div class="form-group">
+            <label for="age">Wiek:</label>
+            <input id="age" class="form-control" type="number" required="required" minlength="1"
+                   placeholder="Podaj wiek">
+        </div>
+        <button type="submit" class="btn btn-primary">Dodaj</button>
+    </form>
+</div>
+</body>
+</html>
