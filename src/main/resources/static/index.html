@@ -11,18 +11,17 @@
     <h3>Dodaj użytkownika</h3>
     <form method="post" action="/add-with-post-method">
         <div class="form-group">
-            <label for="firstName">Imię:</label>
-            <input id="firstName" name="firstName" class="form-control" type="text" required="required" minlength="2"
+            <input id="firstNameAddUser" name="firstName" class="form-control" type="text" required="required"
+                   minlength="2"
                    placeholder="Wpisz imię">
         </div>
         <div class="form-group">
-            <label for="lastName">Nazwisko:</label>
-            <input id="lastName" name="lastName" class="form-control" type="text" required="required" minlength="2"
+            <input id="lastNameAddUser" name="lastName" class="form-control" type="text" required="required"
+                   minlength="2"
                    placeholder="Wpisz nazwisko">
         </div>
         <div class="form-group">
-            <label for="age">Wiek:</label>
-            <input id="age" name="age" class="form-control" type="number" required="required" minlength="1"
+            <input id="ageAddUser" name="age" class="form-control" type="number" required="required" minlength="1"
                    placeholder="Podaj wiek">
         </div>
         <button type="submit" class="btn btn-primary">Dodaj</button>
@@ -31,23 +30,39 @@
 <br/>
 <div class="col px-md-3" style="width: 30%;">
     <h3>Znajdź użytkownika/ów</h3>
-    <form method="get" action="/find-users">
+    <form method="get" action="/find">
         <div class="form-group">
-            <label for="firstName2">Imię:</label>
-            <input id="firstName2" name="imie" class="form-control" type="text" minlength="2"
+            <input id="firstNameFindUser" name="imie" class="form-control" type="text" minlength="2"
                    placeholder="Wpisz imię">
         </div>
         <div class="form-group">
-            <label for="lastName2">Nazwisko:</label>
-            <input id="lastName2" name="nazwisko" class="form-control" type="text" minlength="2"
+            <input id="lastNameFindUser" name="nazwisko" class="form-control" type="text" minlength="2"
                    placeholder="Wpisz nazwisko">
         </div>
         <div class="form-group">
-            <label for="age2">Wiek:</label>
-            <input id="age2" name="wiek" class="form-control" type="number" minlength="1"
+            <input id="ageFindUser" name="wiek" class="form-control" type="number" minlength="1"
                    placeholder="Podaj wiek">
         </div>
         <button type="submit" class="btn btn-primary">Szukaj</button>
+    </form>
+</div>
+<br/>
+<div class="col px-md-3" style="width: 30%;">
+    <h3>Usuń użytkownika/ów</h3>
+    <form method="get" action="/delete">
+        <div class="form-group">
+            <input id="firstNameDeleteUser" name="imie" class="form-control" type="text" minlength="2"
+                   placeholder="Wpisz imię">
+        </div>
+        <div class="form-group">
+            <input id="lastNameDeleteUser" name="nazwisko" class="form-control" type="text" minlength="2"
+                   placeholder="Wpisz nazwisko">
+        </div>
+        <div class="form-group">
+            <input id="ageDeleteUser" name="wiek" class="form-control" type="number" minlength="1"
+                   placeholder="Podaj wiek">
+        </div>
+        <button type="submit" class="btn btn-primary">Usuń</button>
     </form>
 </div>
 </body>

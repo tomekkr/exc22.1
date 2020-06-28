@@ -55,7 +55,7 @@ public class UserController {
     }
 
     @ResponseBody
-    @GetMapping("/find-users")
+    @GetMapping("/find")
     public String findUsers(@RequestParam(name = "imie", defaultValue = "unknown") String firstName,
                             @RequestParam(name = "nazwisko", defaultValue = "unknown") String lastName,
                             @RequestParam(name = "wiek", defaultValue = "0") String age) {
@@ -80,39 +80,114 @@ public class UserController {
                 return createResultString(collectedUsers);
             } else if (onlyLastNameCompleted) {
                 List<User> collectedUsers = userList.stream()
-                        .filter(user -> user.getLastName().toLowerCase().equals(lastName.toLowerCase()))
+                        .filter(user -> user.getLastName().equals(lastName))
                         .collect(Collectors.toList());
                 return createResultString(collectedUsers);
             } else if (onlyFirstNameCompleted) {
                 List<User> collectedUsers = userList.stream()
-                        .filter(user -> user.getFirstName().toLowerCase().equals(firstName.toLowerCase()))
+                        .filter(user -> user.getFirstName().equals(firstName))
                         .collect(Collectors.toList());
                 return createResultString(collectedUsers);
             } else if (onlyFirstNameIsDefault) {
                 List<User> collectedUsers = userList.stream()
-                        .filter(user -> user.getLastName().toLowerCase().equals(lastName.toLowerCase()))
+                        .filter(user -> user.getLastName().equals(lastName))
                         .filter(user -> user.getAge() == ageInt)
                         .collect(Collectors.toList());
                 return createResultString(collectedUsers);
             } else if (onlyLastNameIsDefault) {
                 List<User> collectedUsers = userList.stream()
-                        .filter(user -> user.getFirstName().toLowerCase().equals(firstName.toLowerCase()))
+                        .filter(user -> user.getFirstName().equals(firstName))
                         .filter(user -> user.getAge() == ageInt)
                         .collect(Collectors.toList());
                 return createResultString(collectedUsers);
             } else if (onlyAgeIsDefault) {
                 List<User> collectedUsers = userList.stream()
-                        .filter(user -> user.getFirstName().toLowerCase().equals(firstName.toLowerCase()))
-                        .filter(user -> user.getLastName().toLowerCase().equals(lastName.toLowerCase()))
+                        .filter(user -> user.getFirstName().equals(firstName))
+                        .filter(user -> user.getLastName().equals(lastName))
                         .collect(Collectors.toList());
                 return createResultString(collectedUsers);
             } else {
                 List<User> collectedUsers = userList.stream()
-                        .filter(user -> user.getFirstName().toLowerCase().equals(firstName.toLowerCase()))
-                        .filter(user -> user.getLastName().toLowerCase().equals(lastName.toLowerCase()))
+                        .filter(user -> user.getFirstName().equals(firstName))
+                        .filter(user -> user.getLastName().equals(lastName))
                         .filter(user -> user.getAge() == ageInt)
                         .collect(Collectors.toList());
                 return createResultString(collectedUsers);
+            }
+        } catch (NumberFormatException e) {
+            return "Wprowadzono niepoprawne dane";
+        }
+    }
+
+
+    @ResponseBody
+    @GetMapping("/delete")
+    public String deleteUsers(@RequestParam(name = "imie", defaultValue = "unknown") String firstName,
+                              @RequestParam(name = "nazwisko", defaultValue = "unknown") String lastName,
+                              @RequestParam(name = "wiek", defaultValue = "0") String age) {
+        final String successString = "Poprawnie usunięto użytkownika/ów";
+        final String failString = "Nie udało się usunąć użytkownika/ów";
+        try {
+            int ageInt = Integer.parseInt(age);
+            List<User> userList = userRepository.getAllUsers();
+
+            boolean allParametersDefault = firstName.equals("unknown") & lastName.equals("unknown") & age.equals("0");
+            boolean onlyAgeCompleted = firstName.equals("unknown") & lastName.equals("unknown");
+            boolean onlyFirstNameCompleted = lastName.equals("unknown") & age.equals("0");
+            boolean onlyLastNameCompleted = firstName.equals("unknown") & age.equals("0");
+            boolean onlyFirstNameIsDefault = firstName.equals("unknown");
+            boolean onlyLastNameIsDefault = lastName.equals("unknown");
+            boolean onlyAgeIsDefault = age.equals("0");
+
+            if (allParametersDefault) {
+                return failString;
+            } else if (onlyAgeCompleted) {
+                List<User> collectedUsers = userList.stream()
+                        .filter(user -> user.getAge() == ageInt)
+                        .collect(Collectors.toList());
+                userList.removeAll(collectedUsers);
+                return successString;
+            } else if (onlyLastNameCompleted) {
+                List<User> collectedUsers = userList.stream()
+                        .filter(user -> user.getLastName().equals(lastName))
+                        .collect(Collectors.toList());
+                userList.removeAll(collectedUsers);
+                return successString;
+            } else if (onlyFirstNameCompleted) {
+                List<User> collectedUsers = userList.stream()
+                        .filter(user -> user.getFirstName().equals(firstName))
+                        .collect(Collectors.toList());
+                userList.removeAll(collectedUsers);
+                return successString;
+            } else if (onlyFirstNameIsDefault) {
+                List<User> collectedUsers = userList.stream()
+                        .filter(user -> user.getLastName().equals(lastName))
+                        .filter(user -> user.getAge() == ageInt)
+                        .collect(Collectors.toList());
+                userList.removeAll(collectedUsers);
+                return successString;
+            } else if (onlyLastNameIsDefault) {
+                List<User> collectedUsers = userList.stream()
+                        .filter(user -> user.getFirstName().equals(firstName))
+                        .filter(user -> user.getAge() == ageInt)
+                        .collect(Collectors.toList());
+                userList.removeAll(collectedUsers);
+                return successString;
+            } else if (onlyAgeIsDefault) {
+                List<User> collectedUsers = userList.stream()
+                        .filter(user -> user.getFirstName().equals(firstName))
+                        .filter(user -> user.getLastName().equals(lastName))
+                        .collect(Collectors.toList());
+                userList.removeAll(collectedUsers);
+                return successString;
+            } else {
+                List<User> collectedUsers = userList.stream()
+                        .filter(user -> user.getFirstName().equals(firstName))
+                        .filter(user -> user.getLastName().equals(lastName))
+                        .filter(user -> user.getAge() == ageInt)
+                        .collect(Collectors.toList());
+                userList.removeAll(collectedUsers);
+                return successString;
             }
         } catch (NumberFormatException e) {
             return "Wprowadzono niepoprawne dane";
@@ -125,5 +200,13 @@ public class UserController {
             result += user.getFirstName() + " " + user.getLastName() + ", wiek: " + user.getAge() + "<br/>";
         }
         return result;
+    }
+
+    private String success() {
+        return "Operacja zakończona powodzeniem";
+    }
+
+    private String fail() {
+        return "Operacja zakończona powodzeniem";
     }
 }
