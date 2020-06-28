@@ -8,20 +8,20 @@
 </head>
 <body>
 <div class="col px-md-3" style="width: 30%;">
-    <form method="post" action="/add-with-post">
+    <form method="post" action="/add-with-post-method">
         <div class="form-group">
             <label for="firstName">Imię:</label>
-            <input id="firstName" class="form-control" type="text" required="required" minlength="2"
+            <input id="firstName" name="firstName" class="form-control" type="text" required="required" minlength="2"
                    placeholder="Wpisz imię">
         </div>
         <div class="form-group">
             <label for="lastName">Nazwisko:</label>
-            <input id="lastName" class="form-control" type="text" required="required" minlength="2"
+            <input id="lastName" name="lastName" class="form-control" type="text" required="required" minlength="2"
                    placeholder="Wpisz nazwisko">
         </div>
         <div class="form-group">
             <label for="age">Wiek:</label>
-            <input id="age" class="form-control" type="number" required="required" minlength="1"
+            <input id="age" name="age" class="form-control" type="number" required="required" minlength="1"
                    placeholder="Podaj wiek">
         </div>
         <button type="submit" class="btn btn-primary">Dodaj</button>

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class UserController {
@@ -46,7 +47,7 @@ public class UserController {
         return "/success.html";
     }
 
-    @PostMapping("/add-with-post")
+    @PostMapping("/add-with-post-method")
     public String addUserWithPostMethod(@RequestParam String firstName,
                                         @RequestParam String lastName,
                                         @RequestParam String age) {
