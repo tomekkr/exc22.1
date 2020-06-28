@@ -12,7 +12,10 @@ public class UserRepository {
     public UserRepository() {
         users.add(new User("Jan", "Kowalski", 21));
         users.add(new User("Marek", "Alanowski", 37));
-        users.add(new User("Joeanna", "Kot", 24));
+        users.add(new User("Marek", "Kowalski", 37));
+        users.add(new User("Marek", "Kowalski", 22));
+        users.add(new User("Joanna", "Kot", 24));
+        users.add(new User("Marianna", "Kot", 24));
     }
 
     public List<User> getAllUsers() {

@@ -2,10 +2,7 @@ package com.example.excercise22;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,11 +20,7 @@ public class UserController {
     @RequestMapping("/users")
     public String showUsers() {
         List<User> userList = userRepository.getAllUsers();
-        String result = "<h3>Lista użytkowników:</h3>";
-        for (User user : userList) {
-            result += user.getFirstName() + " " + user.getLastName() + ", wiek: " + user.getAge() + "<br/>";
-        }
-        return result;
+        return createResultString(userList);
     }
 
     @RequestMapping("/add")
@@ -59,5 +52,78 @@ public class UserController {
         } else {
             return "redirect:/success.html";
         }
+    }
+
+    @ResponseBody
+    @GetMapping("/find-users")
+    public String findUsers(@RequestParam(name = "imie", defaultValue = "unknown") String firstName,
+                            @RequestParam(name = "nazwisko", defaultValue = "unknown") String lastName,
+                            @RequestParam(name = "wiek", defaultValue = "0") String age) {
+        try {
+            int ageInt = Integer.parseInt(age);
+            List<User> userList = userRepository.getAllUsers();
+
+            boolean allParametersDefault = firstName.equals("unknown") & lastName.equals("unknown") & age.equals("0");
+            boolean onlyAgeCompleted = firstName.equals("unknown") & lastName.equals("unknown");
+            boolean onlyFirstNameCompleted = lastName.equals("unknown") & age.equals("0");
+            boolean onlyLastNameCompleted = firstName.equals("unknown") & age.equals("0");
+            boolean onlyFirstNameIsDefault = firstName.equals("unknown");
+            boolean onlyLastNameIsDefault = lastName.equals("unknown");
+            boolean onlyAgeIsDefault = age.equals("0");
+
+            if (allParametersDefault) {
+                return "Wprowadzono niepoprawne dane";
+            } else if (onlyAgeCompleted) {
+                List<User> collectedUsers = userList.stream()
+                        .filter(user -> user.getAge() == ageInt)
+                        .collect(Collectors.toList());
+                return createResultString(collectedUsers);
+            } else if (onlyLastNameCompleted) {
+                List<User> collectedUsers = userList.stream()
+                        .filter(user -> user.getLastName().toLowerCase().equals(lastName.toLowerCase()))
+                        .collect(Collectors.toList());
+                return createResultString(collectedUsers);
+            } else if (onlyFirstNameCompleted) {
+                List<User> collectedUsers = userList.stream()
+                        .filter(user -> user.getFirstName().toLowerCase().equals(firstName.toLowerCase()))
+                        .collect(Collectors.toList());
+                return createResultString(collectedUsers);
+            } else if (onlyFirstNameIsDefault) {
+                List<User> collectedUsers = userList.stream()
+                        .filter(user -> user.getLastName().toLowerCase().equals(lastName.toLowerCase()))
+                        .filter(user -> user.getAge() == ageInt)
+                        .collect(Collectors.toList());
+                return createResultString(collectedUsers);
+            } else if (onlyLastNameIsDefault) {
+                List<User> collectedUsers = userList.stream()
+                        .filter(user -> user.getFirstName().toLowerCase().equals(firstName.toLowerCase()))
+                        .filter(user -> user.getAge() == ageInt)
+                        .collect(Collectors.toList());
+                return createResultString(collectedUsers);
+            } else if (onlyAgeIsDefault) {
+                List<User> collectedUsers = userList.stream()
+                        .filter(user -> user.getFirstName().toLowerCase().equals(firstName.toLowerCase()))
+                        .filter(user -> user.getLastName().toLowerCase().equals(lastName.toLowerCase()))
+                        .collect(Collectors.toList());
+                return createResultString(collectedUsers);
+            } else {
+                List<User> collectedUsers = userList.stream()
+                        .filter(user -> user.getFirstName().toLowerCase().equals(firstName.toLowerCase()))
+                        .filter(user -> user.getLastName().toLowerCase().equals(lastName.toLowerCase()))
+                        .filter(user -> user.getAge() == ageInt)
+                        .collect(Collectors.toList());
+                return createResultString(collectedUsers);
+            }
+        } catch (NumberFormatException e) {
+            return "Wprowadzono niepoprawne dane";
+        }
+    }
+
+    private String createResultString(List<User> collectedUsers) {
+        String result = "<h3>Lista użytkowników:</h3>";
+        for (User user : collectedUsers) {
+            result += user.getFirstName() + " " + user.getLastName() + ", wiek: " + user.getAge() + "<br/>";
+        }
+        return result;
     }
 }
